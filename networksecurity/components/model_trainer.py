@@ -24,7 +24,13 @@ from sklearn.ensemble import (
 import mlflow
 
 import dagshub
+
+import os
+os.environ['DAGSHUB_TOKEN'] = os.getenv("DAGSHUB_TOKEN", "bcbf7b2f230bb17299319ee42d06be8f1091d76f")  # for local testing
+
+# Then init
 dagshub.init(repo_owner='Devb1234', repo_name='Network_Security', mlflow=True)
+
 class ModelTrainer:
     def __init__(self,model_trainer_config:ModelTrainerConfig,data_transformation_artifact:DataTransformationArtifact):
         try:
