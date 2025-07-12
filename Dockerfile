@@ -1,21 +1,17 @@
 FROM python:3.10-slim-buster
 
-# Set working directory
 WORKDIR /app
 
-# Copy project files
-COPY . /app
+# Copy requirements first to leverage Docker cache
+COPY requirements.txt /app/requirements.txt
 
-# Install system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+# Install system packages (as discussed earlier)
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libffi-dev \
     libssl-dev \
     python3-dev \
     build-essential \
-    curl \
-    unzip \
     awscli \
     git && \
     apt-get clean && \
@@ -27,6 +23,8 @@ RUN pip install --upgrade pip
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt --verbose
 
+# Now copy the rest of the app
+COPY . /app
 
-# Run the app
+# Default command
 CMD ["python3", "app.py"]
