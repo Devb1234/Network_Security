@@ -79,11 +79,15 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Pull latest images
+      - name: Set image variables
+        id: image-vars
         run: |
-          docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          echo "IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest" >> $GITHUB_ENV
 
-      - name: Stop and remove existing container if running
+      - name: Pull latest image
+        run: docker pull $IMAGE_URI
+
+      - name: Stop and remove existing container (if running)
         run: |
           docker ps -q --filter "name=networksecurity" | grep -q . && docker stop networksecurity && docker rm -fv networksecurity || true
 
@@ -94,8 +98,7 @@ jobs:
             -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
             -e AWS_REGION=${{ secrets.AWS_REGION }} \
             -e DAGSHUB_TOKEN=${{ secrets.DAGSHUB_TOKEN }} \
-            ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+            $IMAGE_URI
 
-      - name: Clean previous images and containers
-        run: |
-          docker system prune -f
+      - name: Clean up old images and containers
+        run: docker system prune -f
