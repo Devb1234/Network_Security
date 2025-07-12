@@ -1,6 +1,0 @@
-[ 2025-07-12 19:26:00,797 ] 1025 httpx -INFO- [HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"]
-[ 2025-07-12 19:26:00,803 ] 107 dagshub -INFO- [Accessing as Devb1234]
-[ 2025-07-12 19:26:02,041 ] 1025 httpx -INFO- [HTTP Request: GET https://dagshub.com/api/v1/repos/Devb1234/Network_Security "HTTP/1.1 200 OK"]
-[ 2025-07-12 19:26:03,572 ] 1025 httpx -INFO- [HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"]
-[ 2025-07-12 19:26:03,573 ] 107 dagshub -INFO- [Initialized MLflow to track repo "Devb1234/Network_Security"]
-[ 2025-07-12 19:26:03,573 ] 107 dagshub -INFO- [Repository Devb1234/Network_Security initialized!]
