@@ -7,8 +7,6 @@ from networksecurity.logging.logger import logging
 from networksecurity.entity.artifact_entity import DataTransformationArtifact,ModelTrainerArtifact
 from networksecurity.entity.config_entity import ModelTrainerConfig
 
-
-
 from networksecurity.utils.ml_utils.model.estimator import NetworkModel
 from networksecurity.utils.main_utils.utils import save_object,load_object
 from networksecurity.utils.main_utils.utils import load_numpy_array_data,evaluate_models
@@ -36,14 +34,10 @@ class ModelTrainer:
             raise NetworkSecurityException(e,sys)
         
     def track_mlflow(self,best_model,classificationmetric):
-        #mlflow.set_registry_uri("https://dagshub.com/krishnaik06/networksecurity.mlflow")
-        #tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
         with mlflow.start_run():
             f1_score=classificationmetric.f1_score
             precision_score=classificationmetric.precision_score
             recall_score=classificationmetric.recall_score
-
-            
 
             mlflow.log_metric("f1_score",f1_score)
             mlflow.log_metric("precision",precision_score)
@@ -128,14 +122,6 @@ class ModelTrainer:
         logging.info(f"Model trainer artifact: {model_trainer_artifact}")
         return model_trainer_artifact
 
-
-        
-
-
-       
-    
-    
-        
     def initiate_model_trainer(self)->ModelTrainerArtifact:
         try:
             train_file_path = self.data_transformation_artifact.transformed_train_file_path
